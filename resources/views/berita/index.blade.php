@@ -3,6 +3,99 @@
 @section('title', 'Berita & Informasi')
 
 @section('content')
+<style>
+    .hero-berita {
+        background: linear-gradient(110deg, #173d70 0%, #202477 100%);
+        color: white;
+
+        width: 100vw;
+
+        margin-left: calc(50% - 50vw);
+        margin-top: 0;
+        margin-bottom: 0;
+
+
+        padding: 90px 0 80px;
+    }
+
+    .hero-berita {
+        background: linear-gradient(110deg, #173d70 0%, #202477 100%);
+        color: white;
+
+        width: 100vw;
+
+        margin-left: calc(50% - 50vw);
+        margin-top: 0;
+        margin-bottom: 45px;
+
+        padding: 90px 0 80px;
+    }
+
+    .hero-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .hero-breadcrumb span {
+        color: #ffc400;
+    }
+
+    .hero-breadcrumb i {
+        color: rgba(255, 255, 255, .4);
+        font-size: 11px;
+    }
+
+    .hero-breadcrumb strong {
+        color: white;
+        font-weight: 500;
+    }
+
+    .hero-berita h1 {
+        font-size: 46px;
+        font-weight: 800;
+        margin: 0 0 10px;
+    }
+
+    .hero-berita p {
+        color: #b9c2d3;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .hero-berita {
+            padding: 50px 0;
+        }
+
+        .hero-berita h1 {
+            font-size: 34px;
+        }
+
+        .hero-berita p {
+            font-size: 15px;
+        }
+    }
+</style>
+<!-- HERO BANNER -->
+<div class="hero-berita">
+    <div class="container">
+
+        <div class="hero-breadcrumb">
+            <span>Beranda</span>
+            <i class="bi bi-chevron-right"></i>
+            <strong>Berita</strong>
+        </div>
+
+        <h1>Berita & Informasi</h1>
+
+        <p>Informasi terkini dari Desa Jalatrang</p>
+
+    </div>
+</div>
+
 <div class="row">
     <!-- Sidebar Filter -->
     <div class="col-md-3 mb-4">
@@ -14,13 +107,13 @@
                 <form method="GET" action="{{ route('berita.index') }}">
                     <label class="form-label fw-semibold">Kata Kunci</label>
                     <input type="text" name="kata_kunci" class="form-control mb-3"
-                           value="{{ request('kata_kunci') }}" placeholder="Cari berita...">
+                        value="{{ request('kata_kunci') }}" placeholder="Cari berita...">
 
                     <label class="form-label fw-semibold">Kategori</label>
                     <select name="kategori" class="form-select mb-3">
                         <option value="">Semua Kategori</option>
                         @foreach (['Olahraga', 'Pendidikan', 'Potensi', 'Pembangunan'] as $k)
-                            <option value="{{ $k }}" @selected(request('kategori') == $k)>{{$k }}</option>
+                        <option value="{{ $k }}" @selected(request('kategori')==$k)>{{$k }}</option>
                         @endforeach
                     </select>
 
@@ -41,107 +134,107 @@
 
         <div class="row">
             @forelse ($beritas as $berita)
-                <div class="col-md-4 mb-4">
-                    <div class="card card-berita h-100">
-                        <img src="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
-                             class="card-img-top" style="height:180px; object-fit:cover;" alt="{{ $berita->judul }}">
+            <div class="col-md-4 mb-4">
+                <div class="card card-berita h-100">
+                    <img src="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
+                        class="card-img-top" style="height:180px; object-fit:cover;" alt="{{ $berita->judul }}">
 
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <span class="badge badge-kategori text-white">{{ $berita->kategori }}</span>
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar3"></i> {{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}
-                                </small>
-                            </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge badge-kategori text-white">{{ $berita->kategori }}</span>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3"></i> {{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}
+                            </small>
+                        </div>
 
-                            <h6>
-                                <!-- Trigger Modal Detail via Klik Judul -->
-                                <a href="javascript:void(0)" 
-                                   class="text-decoration-none text-dark fw-bold btn-detail"
-                                   data-id="{{ $berita->id }}"
-                                   data-judul="{{ $berita->judul }}"
-                                   data-kategori="{{ $berita->kategori }}"
-                                   data-isi="{{ $berita->isi }}"
-                                   data-tanggal="{{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}"
-                                   data-dilihat="{{ $berita->dilihat ?? 0 }}"
-                                   data-gambar="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
-                                   data-bs-toggle="modal" 
-                                   data-bs-target="#modalDetail">
-                                    {{ Str::limit($berita->judul, 60) }}
-                                </a>
-                            </h6>
+                        <h6>
+                            <!-- Trigger Modal Detail via Klik Judul -->
+                            <a href="javascript:void(0)"
+                                class="text-decoration-none text-dark fw-bold btn-detail"
+                                data-id="{{ $berita->id }}"
+                                data-judul="{{ $berita->judul }}"
+                                data-kategori="{{ $berita->kategori }}"
+                                data-isi="{{ $berita->isi }}"
+                                data-tanggal="{{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}"
+                                data-dilihat="{{ $berita->dilihat ?? 0 }}"
+                                data-gambar="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalDetail">
+                                {{ Str::limit($berita->judul, 60) }}
+                            </a>
+                        </h6>
 
-                            <p class="text-muted small flex-grow-1">{{ Str::limit($berita->isi, 80) }}</p>
+                        <p class="text-muted small flex-grow-1">{{ Str::limit($berita->isi, 80) }}</p>
 
-                            <div class="mb-2">
-                                <span class="tag-pill">#{{ Str::slug($berita->kategori) }}</span>
-                                <span class="tag-pill">#desa</span>
-                            </div>
+                        <div class="mb-2">
+                            <span class="tag-pill">#{{ Str::slug($berita->kategori) }}</span>
+                            <span class="tag-pill">#desa</span>
+                        </div>
 
-                            <div class="d-flex justify-content-between align-items-center mt-1">
-                                <small class="text-muted"><i class="bi bi-eye"></i> {{ $berita->dilihat ?? 0 }}</small>
-                                <!-- Trigger Modal Detail via Tombol Baca -->
-                                <button type="button" 
-                                        class="btn btn-sm btn-baca btn-detail"
-                                        data-id="{{ $berita->id }}"
-                                        data-judul="{{ $berita->judul }}"
-                                        data-kategori="{{ $berita->kategori }}"
-                                        data-isi="{{ $berita->isi }}"
-                                        data-tanggal="{{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}"
-                                        data-dilihat="{{ $berita->dilihat ?? 0 }}"
-                                        data-gambar="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalDetail">
-                                    Baca <i class="bi bi-arrow-right"></i>
-                                </button>
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center mt-1">
+                            <small class="text-muted"><i class="bi bi-eye"></i> {{ $berita->dilihat ?? 0 }}</small>
+                            <!-- Trigger Modal Detail via Tombol Baca -->
+                            <button type="button"
+                                class="btn btn-sm btn-baca btn-detail"
+                                data-id="{{ $berita->id }}"
+                                data-judul="{{ $berita->judul }}"
+                                data-kategori="{{ $berita->kategori }}"
+                                data-isi="{{ $berita->isi }}"
+                                data-tanggal="{{ $berita->created_at ? $berita->created_at->format('d M Y') : '-' }}"
+                                data-dilihat="{{ $berita->dilihat ?? 0 }}"
+                                data-gambar="{{ $berita->gambar ? asset('storage/'.$berita->gambar) : 'https://placehold.co/400x220?text=Berita+Desa' }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalDetail">
+                                Baca <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
 
-                            <!-- Tombol Edit & Hapus (Modal) -->
-                            <div class="mt-2 pt-2 border-top d-flex gap-2">
-                                <!-- Trigger Modal Edit -->
-                                <button type="button" 
-                                        class="btn btn-sm btn-outline-warning w-50 btn-edit"
-                                        data-id="{{ $berita->id }}"
-                                        data-judul="{{ $berita->judul }}"
-                                        data-kategori="{{ $berita->kategori }}"
-                                        data-isi="{{ $berita->isi }}"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalEdit">
-                                    <i class="bi bi-pencil-square me-1"></i> Edit
-                                </button>
+                        <!-- Tombol Edit & Hapus (Modal) -->
+                        <div class="mt-2 pt-2 border-top d-flex gap-2">
+                            <!-- Trigger Modal Edit -->
+                            <button type="button"
+                                class="btn btn-sm btn-outline-warning w-50 btn-edit"
+                                data-id="{{ $berita->id }}"
+                                data-judul="{{ $berita->judul }}"
+                                data-kategori="{{ $berita->kategori }}"
+                                data-isi="{{ $berita->isi }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEdit">
+                                <i class="bi bi-pencil-square me-1"></i> Edit
+                            </button>
 
-                                <!-- Trigger Modal Hapus -->
-                                <button type="button" 
-                                        class="btn btn-sm btn-outline-danger w-50 btn-hapus"
-                                        data-id="{{ $berita->id }}"
-                                        data-judul="{{ $berita->judul }}"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#modalHapus">
-                                    <i class="bi bi-trash me-1"></i> Hapus
-                                </button>
-                            </div>
+                            <!-- Trigger Modal Hapus -->
+                            <button type="button"
+                                class="btn btn-sm btn-outline-danger w-50 btn-hapus"
+                                data-id="{{ $berita->id }}"
+                                data-judul="{{ $berita->judul }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalHapus">
+                                <i class="bi bi-trash me-1"></i> Hapus
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
             @empty
-                <div class="col-12">
-                    <div class="alert alert-light text-center py-5 border">
-                        <i class="bi bi-newspaper display-4 text-muted d-block mb-2"></i>
-                        <span class="text-muted">Berita tidak ditemukan.</span>
-                    </div>
+            <div class="col-12">
+                <div class="alert alert-light text-center py-5 border">
+                    <i class="bi bi-newspaper display-4 text-muted d-block mb-2"></i>
+                    <span class="text-muted">Berita tidak ditemukan.</span>
                 </div>
+            </div>
             @endforelse
         </div>
 
         @if ($beritas->total() > 0)
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                <p class="text-muted small mb-0">
-                    Menampilkan {{ $beritas->firstItem() }} - {{ $beritas->lastItem() }} dari {{$beritas->total() }} hasil
-                </p>
-                <div>
-                    {{ $beritas->links() }}
-                </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <p class="text-muted small mb-0">
+                Menampilkan {{ $beritas->firstItem() }} - {{ $beritas->lastItem() }} dari {{$beritas->total() }} hasil
+            </p>
+            <div>
+                {{ $beritas->links() }}
             </div>
+        </div>
         @endif
     </div>
 </div>
@@ -197,7 +290,7 @@
                         <label for="judul" class="form-label fw-semibold">Judul</label>
                         <input type="text" name="judul" id="judul" class="form-control @error('judul') is-invalid @enderror" value="{{ old('judul') }}" placeholder="Judul berita...">
                         @error('judul')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -206,11 +299,11 @@
                         <select name="kategori" id="kategori" class="form-select @error('kategori') is-invalid @enderror">
                             <option value="">-- Pilih Kategori --</option>
                             @foreach (['Olahraga', 'Pendidikan', 'Potensi', 'Pembangunan'] as $k)
-                                <option value="{{ $k }}" @selected(old('kategori') == $k)>{{$k }}</option>
+                            <option value="{{ $k }}" @selected(old('kategori')==$k)>{{$k }}</option>
                             @endforeach
                         </select>
                         @error('kategori')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -218,7 +311,7 @@
                         <label for="gambar" class="form-label fw-semibold">Foto Berita (Opsional)</label>
                         <input type="file" name="gambar" id="gambar" class="form-control @error('gambar') is-invalid @enderror" accept="image/*">
                         @error('gambar')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -226,7 +319,7 @@
                         <label for="isi" class="form-label fw-semibold">Isi Berita</label>
                         <textarea name="isi" id="isi" rows="5" class="form-control @error('isi') is-invalid @enderror" placeholder="Tulis isi berita di sini...">{{ old('isi') }}</textarea>
                         @error('isi')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -259,7 +352,7 @@
                         <label for="edit_judul" class="form-label fw-semibold">Judul</label>
                         <input type="text" name="judul" id="edit_judul" class="form-control @error('judul_edit') is-invalid @enderror" placeholder="Judul berita...">
                         @error('judul_edit')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -268,11 +361,11 @@
                         <select name="kategori" id="edit_kategori" class="form-select @error('kategori_edit') is-invalid @enderror">
                             <option value="">-- Pilih Kategori --</option>
                             @foreach (['Olahraga', 'Pendidikan', 'Potensi', 'Pembangunan'] as $k)
-                                <option value="{{ $k }}">{{ $k }}</option>
+                            <option value="{{ $k }}">{{ $k }}</option>
                             @endforeach
                         </select>
                         @error('kategori_edit')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -281,7 +374,7 @@
                         <input type="file" name="gambar" id="edit_gambar" class="form-control @error('gambar_edit') is-invalid @enderror" accept="image/*">
                         <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto.</small>
                         @error('gambar_edit')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -289,7 +382,7 @@
                         <label for="edit_isi" class="form-label fw-semibold">Isi Berita</label>
                         <textarea name="isi" id="edit_isi" rows="5" class="form-control @error('isi_edit') is-invalid @enderror" placeholder="Tulis isi berita di sini..."></textarea>
                         @error('isi_edit')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -334,12 +427,12 @@
 
 <!-- JavaScript Dynamic Populate Modal & Auto-Open Error Handling -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        
+    document.addEventListener('DOMContentLoaded', function() {
+
         // 1. Populate Modal Detail
         const modalDetail = document.getElementById('modalDetail');
         if (modalDetail) {
-            modalDetail.addEventListener('show.bs.modal', function (event) {
+            modalDetail.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 if (!button) return;
 
@@ -355,7 +448,7 @@
         // 2. Populate Modal Edit
         const modalEdit = document.getElementById('modalEdit');
         if (modalEdit) {
-            modalEdit.addEventListener('show.bs.modal', function (event) {
+            modalEdit.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 if (!button) return;
 
@@ -372,7 +465,7 @@
         // 3. Populate Modal Hapus
         const modalHapus = document.getElementById('modalHapus');
         if (modalHapus) {
-            modalHapus.addEventListener('show.bs.modal', function (event) {
+            modalHapus.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
                 if (!button) return;
 
@@ -387,8 +480,16 @@
         }
 
         // 4. Auto-open Modal jika ada Error Validasi (Aman dari Linter)
-        const hasErrors = {{ $errors->any() ? 'true' : 'false' }};
-        const isEditError = {{ session('is_edit_error') ? 'true' : 'false' }};
+        const hasErrors = {
+            {
+                $errors - > any() ? 'true' : 'false'
+            }
+        };
+        const isEditError = {
+            {
+                session('is_edit_error') ? 'true' : 'false'
+            }
+        };
 
         if (hasErrors && !isEditError) {
             const elTambah = document.getElementById('modalTambah');
