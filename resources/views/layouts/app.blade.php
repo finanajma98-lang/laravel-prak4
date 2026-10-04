@@ -59,6 +59,13 @@
         .main-header {
             background: #202a40;
             border-bottom: 1px solid rgba(255, 255, 255, .08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-content {
+            padding-top: 40px;
         }
 
         .header-inner {
@@ -244,7 +251,7 @@
         @media (max-width: 1400px) {
 
             .brand-desa {
-                min-width: 360px;
+                min-width: 350px;
             }
 
             .navbar-desa .nav-link {
@@ -547,7 +554,9 @@
             </div>
             @endif
 
-            @yield('content')
+            <div class="main-content">
+                @yield('content')
+            </div>
 
         </div>
 
